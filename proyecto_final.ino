@@ -18,7 +18,9 @@
 #define ONE_WIRE_BUS 14               // GPIO14 para sensor de temperatura DS18B20
 #define PH_PIN 34                     // Pin analógico para sensor de pH
 #define EC_PIN A0                     // Pin analógico para sensor EC (GPIO36)
-#define MOTOR_PIN 15
+#define MOTOR1 15
+#define MOTOR2 21
+#define MOTOR3 5
 
 OneWire oneWire(ONE_WIRE_BUS);
 DallasTemperature sensors(&oneWire);
@@ -30,8 +32,8 @@ float ph;
  
 String apiKey = "LWAG0XTRPKLBCMGH";     //  Enter your Write API key from ThingSpeak
  
-const char *ssid =  "CLARO1_378ED8";     // replace with your wifi ssid and wpa2 key
-const char *pass = "5HZTSSX42M";
+const char *ssid =  "CLARO1_81FBD4";     // replace with your wifi ssid and wpa2 key
+const char *pass = "861W0YNFTY";
 const char* server = "api.thingspeak.com";
  
 WiFiClient client;
@@ -68,13 +70,31 @@ void leerSensores() {
 
 
 void controlarMotor() {
-  if (ph > 10.0) {
-    digitalWrite(MOTOR_PIN, HIGH);  // Enciende el motor
-    Serial.println("Motor encendido por pH alto");
-  } else {
-    digitalWrite(MOTOR_PIN, LOW);   // Apaga el motor
+  // Motor 1 por pH alto
+  if (ph > 7.5) {
+    digitalWrite(MOTOR1, HIGH);
+    Serial.println("Motor 1 encendido por pH alto");
+  } else if (ph < 7.5) {
+    digitalWrite(MOTOR1, LOW);
+  }
+
+  // Motor 2 por pH bajo
+  if (ph < 6.5) {
+    digitalWrite(MOTOR2, HIGH);
+    Serial.println("Motor 2 encendido por pH bajo");
+  } else if (ph > 6.5) {
+    digitalWrite(MOTOR2, LOW);
+  }
+
+  // Motor 3 por TDS alto
+  if (tds > 300.0) {
+    digitalWrite(MOTOR3, HIGH);
+    Serial.println("Motor 3 encendido por TDS alto");
+  } else if (tds > 100.0) {
+    digitalWrite(MOTOR3, LOW);
   }
 }
+
 
 
 void imprimirDatos() {
@@ -121,24 +141,28 @@ void enviarBlynk() {
 void setup()
 {
   Serial.begin(115200);
-  EEPROM.begin(32);//needed EEPROM.begin to store calibration k in eeprom
+  EEPROM.begin(32);
   ec.begin();
   sensors.begin();
   pinMode(PH_PIN,INPUT);
-  pinMode(MOTOR_PIN, OUTPUT);
-  digitalWrite(MOTOR_PIN, LOW);
+  pinMode(MOTOR1, OUTPUT);
+  pinMode(MOTOR3, OUTPUT);
+  pinMode(MOTOR3, OUTPUT);
+  digitalWrite(MOTOR1, LOW);
+  digitalWrite(MOTOR2, LOW);
+  digitalWrite(MOTOR3, LOW);
   conectarWiFi();
-  //Blynk.begin(BLYNK_AUTH_TOKEN, ssid, pass);
+  Blynk.begin(BLYNK_AUTH_TOKEN, ssid, pass);
 }
  
  
 void loop()
 {
-  //Blynk.run();
+  Blynk.run();
   leerSensores();
   controlarMotor();
   imprimirDatos();
-  //enviarBlynk()
+  enviarBlynk()
   enviarDatosThingSpeak();
-  delay(1500);  // Pausa de 1.5 segundos antes de actualizar la pantalla
+  delay(1500);
 }
