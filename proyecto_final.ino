@@ -90,7 +90,7 @@ void controlarMotor() {
   if (tds > 300.0) {
     digitalWrite(MOTOR3, HIGH);
     Serial.println("Motor 3 encendido por TDS alto");
-  } else if (tds > 100.0) {
+  } else if (tds < 100.0) {
     digitalWrite(MOTOR3, LOW);
   }
 }
