@@ -1,0 +1,21 @@
+#ifndef WIFI_CONFIG_H
+#define WIFI_CONFIG_H
+
+#include <WiFi.h>
+
+const char *ssid = "CLARO1_378ED8";
+const char *pass = "5HZTSSX42M";
+
+void conectarWiFi()
+{
+    Serial.println("Conectando a WiFi...");
+    WiFi.begin(ssid, pass);
+    while (WiFi.status() != WL_CONNECTED)
+    {
+        delay(500);
+        Serial.print(".");
+    }
+    Serial.println("\nWiFi conectado");
+}
+
+#endif
