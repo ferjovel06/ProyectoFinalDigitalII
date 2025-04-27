@@ -17,11 +17,21 @@ void configurarMotores()
     digitalWrite(MOTOR3, LOW);
 }
 
-void controlarMotor()
-{
-    digitalWrite(MOTOR1, ph > 7.5 ? HIGH : LOW);
-    digitalWrite(MOTOR2, ph < 6.5 ? HIGH : LOW);
-    digitalWrite(MOTOR3, tds > 300.0 ? HIGH : LOW);
+void controlarMotor() {
+    bool motor1On = ph > 7.5;
+    bool motor2On = ph < 6.5;
+    bool motor3On = tds > 300.0;
+
+    digitalWrite(MOTOR1, motor1On ? HIGH : LOW);
+    digitalWrite(MOTOR2, motor2On ? HIGH : LOW);
+    digitalWrite(MOTOR3, motor3On ? HIGH : LOW);
+
+    Serial.print("Motores encendidos: ");
+    if (motor1On) Serial.print("MOTOR1 ");
+    if (motor2On) Serial.print("MOTOR2 ");
+    if (motor3On) Serial.print("MOTOR3 ");
+    if (!motor1On && !motor2On && !motor3On) Serial.print("Ninguno");
+    Serial.println();
 }
 
 #endif

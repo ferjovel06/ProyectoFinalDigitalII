@@ -1,16 +1,17 @@
 #ifndef DATA_DASHBOARD_H
 #define DATA_DASHBOARD_H
 
-void enviarDatosDjango(float temperatura, float ph, float tds)
+void enviarDatosDjango(float temperatura, float ph, float tds, float ec)
 {
-    if (client.connect("192.168.1.95", 8000))
+    if (client.connect("192.168.1.233", 8000))
     {
         String postData = "temperatura=" + String(temperatura) +
                           "&ph=" + String(ph) +
-                          "&tds=" + String(tds);
+                          "&tds=" + String(tds) + 
+			  "&ec=" + String(ec);
 
         client.print("POST /sensors/datos/ HTTP/1.1\r\n");
-        client.print("Host: 192.168.1.95\r\n");
+        client.print("Host: 192.168.1.233\r\n");
         client.print("Content-Type: application/x-www-form-urlencoded\r\n");
         client.print("Content-Length: ");
         client.print(postData.length());

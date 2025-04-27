@@ -22,6 +22,6 @@ void loop() {
   imprimirDatos();
   //enviarBlynk();
   enviarDatosThingSpeak();
-  enviarDatosDjango(temperature, ph, tds);
+  enviarDatosDjango(temperature, ph, tds, ecValue);
   delay(1500);
 }

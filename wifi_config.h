@@ -3,6 +3,9 @@
 
 #include <WiFi.h>
 
+//const char *ssid = "CLARO1_81FBD4";
+//const char *pass = "861W0YNFTY";
+
 const char *ssid = "CLARO1_378ED8";
 const char *pass = "5HZTSSX42M";
 
