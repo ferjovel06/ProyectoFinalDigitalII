@@ -33,10 +33,8 @@ void leerSensores()
 
     // pH
     int rawPH = analogRead(PH_PIN);
-    Serial.println(rawPH);
     float voltage = rawPH * (3.3 / 4095.0);
     ph = 7 + ((2.5 - voltage) / 0.18);
-    Serial.println(voltage);
 
     ec.calibration(rawEC, temperature);
 }
