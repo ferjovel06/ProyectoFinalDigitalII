@@ -33,11 +33,6 @@ void mqttCallback(char *topic, byte *message, unsigned int length)
             motor1On = false;
             digitalWrite(MOTOR1, LOW);
         }
-        else if (msg == "AUTO")
-        {
-            motor1Manual = false;
-            Serial.println("Motor alcalino vuelve a automático.");
-        }
     }
     else if (strcmp(topic, "sistema/motor_ph_acido") == 0)
     {
@@ -54,11 +49,6 @@ void mqttCallback(char *topic, byte *message, unsigned int length)
             Serial.println("Apagando motor ácido...");
             motor2On = false;
             digitalWrite(MOTOR2, LOW);
-        }
-        else if (msg == "AUTO")
-        {
-            motor2Manual = false;
-            Serial.println("Motor ácido vuelve a automático.");
         }
     }
     else if (strcmp(topic, "sistema/motor_tds_altos") == 0)
@@ -77,10 +67,16 @@ void mqttCallback(char *topic, byte *message, unsigned int length)
             motor3On = false;
             digitalWrite(MOTOR3, LOW);
         }
-        else if (msg == "AUTO")
+    }
+    else if (strcmp(topic, "sistema/auto_mode") == 0)
+    {
+        if (msg == "ON")
         {
+            motor1Manual = false;
+            motor2Manual = false;
             motor3Manual = false;
-            Serial.println("Motor TDS altos vuelve a automático.");
+            Serial.println("Todos los motores pasaron a modo automático.");
+            controlarMotor();
         }
     }
     else
@@ -103,6 +99,7 @@ bool reconnectMQTT()
             if (mqttClient.connect("WaterQualityMonitorESP32"))
             {
                 Serial.println("Conectado!");
+                mqttClient.subscribe("sistema/auto_mode");
                 mqttClient.subscribe("sistema/motor_ph_alcalino");
                 mqttClient.subscribe("sistema/motor_ph_acido");
                 mqttClient.subscribe("sistema/motor_tds_altos");
