@@ -25,7 +25,6 @@ void setup() {
   iniciarSensores();
   configurarMotores();
   conectarWiFi();
-  //iniciarBlynk(ssid, pass);
   mqttClient.setServer("test.mosquitto.org", 1883); 
   mqttClient.setCallback(mqttCallback);          
   reconnectMQTT();   
@@ -38,11 +37,9 @@ void loop()
     reconnectMQTT();
   }
   mqttClient.loop();
-  //Blynk.run();
   leerSensores();
   controlarMotor();
-  //enviarBlynk();
-  enviarDatosThingSpeak();
   enviarDatosDjango(temperature, ph, tds, ecValue, motor1On, motor2On, motor3On);
+  imprimirDatos();
   delay(1500);
 }
