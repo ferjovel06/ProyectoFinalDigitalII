@@ -3,7 +3,7 @@
 
 void enviarDatosDjango(float temperatura, float ph, float tds, float ec, bool motor1On, bool motor2On, bool motor3On)
 {
-    if (client.connect("192.168.1.95", 8000))
+    if (client.connect("192.168.177.32", 8000))
     {
         String postData = "temperatura=" + String(temperatura) +
                           "&ph=" + String(ph) +

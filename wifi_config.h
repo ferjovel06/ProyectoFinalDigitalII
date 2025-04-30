@@ -6,11 +6,12 @@
 //const char *ssid = "CLARO1_81FBD4";
 //const char *pass = "861W0YNFTY";
 
-//const char *ssid = "CLARO1_378ED8";
+//const char *ssid = "CLARO2_378ED8";
 //const char *pass = "5HZTSSX42M";
 
-const char *ssid = "Redmi Note 12S";
-const char *pass = "123456789";
+WiFiClient client;
+const char *ssid = "Redmi Note 13 Pro";
+const char *pass = "ferjovel";
 
 void conectarWiFi()
 {

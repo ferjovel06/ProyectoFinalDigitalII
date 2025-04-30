@@ -3,8 +3,6 @@
 #include "wifi_config.h"
 #include "sensores.h"
 #include "motores.h"
-#include "thingspeak_sender.h"
-#include "blynk_sender.h"
 #include "data_dashboard.h"
 #include "get_server_data.h"
 
@@ -25,7 +23,7 @@ void setup() {
   iniciarSensores();
   configurarMotores();
   conectarWiFi();
-  mqttClient.setServer("test.mosquitto.org", 1883); 
+  mqttClient.setServer("192.168.177.32", 1883); 
   mqttClient.setCallback(mqttCallback);          
   reconnectMQTT();   
 }
